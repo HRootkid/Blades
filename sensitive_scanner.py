@@ -61,12 +61,6 @@ def extract_strings_from_binary(filepath, min_len=4):
         # Read the entire file as bytes
         binary_data = f.read()
 
-    # Use regex to find sequences of printable ASCII characters
-    # \x20-\x7E covers standard printable ASCII
-    # + to match one or more characters
-    # {min_len,} to ensure a minimum length
-    # This might miss Unicode strings, for which more complex decoding would be needed.
-    # For now, focusing on common ASCII strings which contain most sensitive data.
     strings = re.findall(rb'[ -~]{%d,}' % min_len, binary_data)
     
     decoded_strings = []
@@ -199,4 +193,5 @@ def display_results(results, verbose):
         console.print("") # Add a newline for spacing
 
 if __name__ == "__main__":
+
     main()
