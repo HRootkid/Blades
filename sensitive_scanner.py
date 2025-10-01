@@ -8,10 +8,6 @@ from rich import print as rprint
 
 console = Console()
 
-# --- Regular Expressions for Sensitive Data ---
-# These are examples, you'll want to expand and refine them.
-# Use raw strings (r"...") for regex patterns to avoid issues with backslashes.
-
 SENSITIVE_PATTERNS = {
     "API Key": [
         r"(?i)(?:api_key|secret_key|access_token|auth_token|bearer_token|private_key|client_secret)[\s\"']*[=:]\s*['\"]?([a-zA-Z0-9_-]{16,64})['\"]?",
@@ -99,12 +95,7 @@ def scan_file(filepath):
             # Use re.DOTALL to allow '.' to match newlines
             matches = re.finditer(pattern, content)
             for match in matches:
-                found_string = match.group(0) # The entire matched string
-                # Optionally, if your regex uses capture groups for the sensitive part
-                # e.g., r"key=(\w+)" then match.group(1) would give just the key.
-                # For simplicity, we're taking the whole match for now.
-
-                # Basic de-duplication and context addition
+                found_string = match.group(0) 
                 if found_string not in [f['value'] for f in findings_in_category]:
                     # Find line number (approximate for binary files)
                     line_number = content.count('\n', 0, match.start()) + 1
@@ -195,3 +186,4 @@ def display_results(results, verbose):
 if __name__ == "__main__":
 
     main()
+
